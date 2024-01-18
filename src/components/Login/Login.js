@@ -1,5 +1,5 @@
-import React, { useState,useEffect,useReducer } from 'react';
-
+import React, { useState,useEffect,useReducer,useContext } from 'react';
+import {LoggingContext} from "../../App"
 import Card from '../UI/Card/Card';
 import classes from './Login.module.css';
 import Button from '../UI/Button/Button';
@@ -34,7 +34,9 @@ const collegeReducer=(state,action)=>{
     }
 }
 
-const Login = (props) => {
+
+const Login = () => {
+  const{onLogin}=useContext(LoggingContext)
   const [formIsValid, setFormIsValid] = useState(false);
   const [emailState,dispatchEmail]=useReducer(emailReducer,{value:'',validity:null})
   const [passwordState,dispatchPassword]=useReducer(passwordReducer,{value:'',validity:null})
@@ -76,7 +78,7 @@ const Login = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onLogin(emailState.value, passwordState.value,collegeState.value);
+    onLogin(emailState.value, passwordState.value,collegeState.value);
   };
 
   return (

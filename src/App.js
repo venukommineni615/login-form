@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState,createContext, useContext } from 'react';
 
 import Login from './components/Login/Login';
 import Home from './components/Home/Home';
 import MainHeader from './components/MainHeader/MainHeader';
-
+export const LoggingContext=createContext(null)
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const loginHandler = (email, password) => {
-    // We should of course check email and password
-    // But it's just a dummy/ demo anyways
     setIsLoggedIn(true);
   };
 
@@ -18,13 +16,19 @@ function App() {
   };
 
   return (
-    <React.Fragment>
+    
+      <LoggingContext.Provider value={{
+        isLoggedIn:isLoggedIn,
+        onLogin:loginHandler,
+        onLogout:logoutHandler
+      }}>
       <MainHeader isAuthenticated={isLoggedIn} onLogout={logoutHandler} />
       <main>
-        {!isLoggedIn && <Login onLogin={loginHandler} />}
-        {isLoggedIn && <Home onLogout={logoutHandler} />}
+        {!isLoggedIn && <Login />}
+        {isLoggedIn && <Home />}
       </main>
-    </React.Fragment>
+      </LoggingContext.Provider>
+    
   );
 }
 
